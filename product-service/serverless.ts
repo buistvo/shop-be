@@ -1,16 +1,23 @@
 import type { AWS } from '@serverless/typescript';
-
-import hello from '@functions/hello';
+import {
+  getAvailableProductsList,
+  getProductById,
+  getProductsList,
+} from '@functions/index';
 
 const serverlessConfiguration: AWS = {
   service: 'product-service',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild'],
+  plugins: [
+    'serverless-esbuild',
+    'serverless-offline',
+    'serverless-aws-documentation',
+  ],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
     stage: 'dev',
-    region: 'eu-west-1',
+    region: 'eu-north-1',
     apiGateway: {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
@@ -21,7 +28,7 @@ const serverlessConfiguration: AWS = {
     },
   },
   // import the function via paths
-  functions: { hello },
+  functions: { getProductsList, getAvailableProductsList, getProductById },
   package: { individually: true },
   custom: {
     esbuild: {
@@ -33,6 +40,15 @@ const serverlessConfiguration: AWS = {
       define: { 'require.resolve': undefined },
       platform: 'node',
       concurrency: 10,
+    },
+    documentation: {
+      api: {
+        info: {
+          version: '1.0.0',
+          title: 'Products API',
+          description: 'Api to get products',
+        },
+      },
     },
   },
 };
