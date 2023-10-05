@@ -49,6 +49,7 @@ const serverlessConfiguration: AWS = {
           description: 'Api to get products',
         },
       },
+      models: '${file(schemas/schemas.json)}',
     },
   },
 };

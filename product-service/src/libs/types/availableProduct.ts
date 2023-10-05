@@ -1,18 +1,7 @@
-import { FromSchema } from 'json-schema-to-ts';
+import { Product } from './product';
 
-const availableProductSchema = {
-  title: 'Product',
-  type: 'object',
-  properties: {
-    id: { type: 'string' },
-    title: { type: 'string' },
-    description: { type: 'string' },
-    price: { type: 'number' },
-    count: { type: 'number' },
-  },
-  required: ['id', 'title', 'price', 'count'],
-} as const;
+export type AvailableProduct = Product & {
+  count: number;
+};
 
-export type AvailableProduct = FromSchema<typeof availableProductSchema>;
-
-export default availableProductSchema;
+export default AvailableProduct;

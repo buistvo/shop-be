@@ -20,6 +20,22 @@ export default {
             'Access-Control-Allow-Origin',
           ],
         },
+        documentation: {
+          summary: 'Get product by id',
+          description: 'Retrieves product by id in path param',
+          responses: {
+            200: {
+              description: 'Success',
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/definitions/schemas/AvailableProduct',
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     },
   ],

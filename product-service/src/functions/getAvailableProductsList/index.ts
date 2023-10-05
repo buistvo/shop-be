@@ -20,6 +20,23 @@ export default {
             'Access-Control-Allow-Origin',
           ],
         },
+        documentation: {
+          summary: 'Get all available products',
+          description: 'Retrieves all available products',
+          responses: {
+            200: {
+              description: 'Success',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    $ref: '#/definitions/schemas/AvailableProduct',
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     },
   ],
