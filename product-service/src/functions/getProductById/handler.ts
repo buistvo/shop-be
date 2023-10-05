@@ -6,7 +6,7 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 
 //import schema from './schema';
 
-const getProductById = //: ValidatedEventAPIGatewayProxyEvent<typeof schema> =
+export const getProductById = //: ValidatedEventAPIGatewayProxyEvent<typeof schema> =
   async (event: APIGatewayProxyEvent) => {
     const id = event.pathParameters?.id;
     const product = availableProductsMock.find((p) => p.id === id);
