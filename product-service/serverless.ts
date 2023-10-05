@@ -11,7 +11,7 @@ const serverlessConfiguration: AWS = {
   plugins: [
     'serverless-esbuild',
     'serverless-offline',
-    'serverless-aws-documentation',
+    'serverless-openapi-documenter',
   ],
   provider: {
     name: 'aws',
@@ -42,14 +42,37 @@ const serverlessConfiguration: AWS = {
       concurrency: 10,
     },
     documentation: {
-      api: {
-        info: {
-          version: '1.0.0',
-          title: 'Products API',
-          description: 'Api to get products',
+      version: '1.0.0',
+      title: 'Products API',
+      description: 'Api to get products',
+      models: [
+        {
+          name: 'Product',
+          description: 'Product',
+          contentType: 'application/json',
+          schema: '${file(schemas/schemas.json):definitions.Product}',
         },
-      },
-      models: '${file(schemas/schemas.json)}',
+        {
+          name: 'ProductList',
+          description: 'Available Product',
+          contentType: 'application/json',
+          schema:
+            '${file(schemas/schemas.json):definitions.ProductListResponse}',
+        },
+        {
+          name: 'AvailableProductList',
+          description: 'Available Product',
+          contentType: 'application/json',
+          schema:
+            '${file(schemas/schemas.json):definitions.AvailableProductListResponse}',
+        },
+        {
+          name: 'ErrorResponse',
+          description: 'Error Response',
+          contentType: 'application/json',
+          schema: '${file(schemas/schemas.json):definitions.ServerError}',
+        },
+      ],
     },
   },
 };

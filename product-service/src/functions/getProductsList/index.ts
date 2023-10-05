@@ -23,19 +23,26 @@ export default {
         documentation: {
           summary: 'Get all products',
           description: 'Retrieves all products',
-          responses: {
-            200: {
-              description: 'Success',
-              content: {
-                'application/json': {
-                  schema: {
-                    type: 'array',
-                    $ref: '#/definitions/schemas/Product',
-                  },
-                },
+          methodResponses: [
+            {
+              statusCode: 200,
+              responseBody: {
+                description: 'Product List',
+              },
+              responseModels: {
+                'application/json': 'ProductList',
               },
             },
-          },
+            {
+              statusCode: 400,
+              responseBody: {
+                description: 'Error response',
+              },
+              responseModels: {
+                'application/json': 'ErrorResponse',
+              },
+            },
+          ],
         },
       },
     },

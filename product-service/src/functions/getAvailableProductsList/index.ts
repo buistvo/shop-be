@@ -21,21 +21,28 @@ export default {
           ],
         },
         documentation: {
-          summary: 'Get all available products',
-          description: 'Retrieves all available products',
-          responses: {
-            200: {
-              description: 'Success',
-              content: {
-                'application/json': {
-                  schema: {
-                    type: 'array',
-                    $ref: '#/definitions/schemas/AvailableProduct',
-                  },
-                },
+          summary: 'Get available products',
+          description: 'Get available products',
+          methodResponses: [
+            {
+              statusCode: 200,
+              responseBody: {
+                description: 'Available Products',
+              },
+              responseModels: {
+                'application/json': 'AvailableProductList',
               },
             },
-          },
+            {
+              statusCode: 400,
+              responseBody: {
+                description: 'Error response',
+              },
+              responseModels: {
+                'application/json': 'ErrorResponse',
+              },
+            },
+          ],
         },
       },
     },
