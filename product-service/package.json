@@ -8,7 +8,8 @@
     "generate-schemas": "ts-json-schema-generator --path src/libs/types/schemas.ts > schemas/schemas.json",
     "generate-documentation": "serverless openapi generate -o openapi.yaml -f yaml  -a 3.0.3 -p postman.json",
     "predeploy": "npm run generate-schemas",
-    "deploy": "sls deploy"
+    "deploy": "sls deploy",
+    "migrate-products": "tsc --target ES2020 --moduleResolution node --module CommonJS ./migrations/migrate-products.ts && node ./migrations/migrate-products"
   },
   "engines": {
     "node": ">=14.15.0"
