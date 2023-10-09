@@ -4,12 +4,14 @@ import {
   getProductById,
   getProductsList,
 } from '@functions/index';
+import { default as dbConfig } from './serverless.db';
 
 const serverlessConfiguration: AWS = {
   service: 'product-service',
   frameworkVersion: '3',
   plugins: [
     'serverless-esbuild',
+    'serverless-dynamodb-local',
     'serverless-offline',
     'serverless-openapi-documenter',
   ],
@@ -40,6 +42,14 @@ const serverlessConfiguration: AWS = {
       define: { 'require.resolve': undefined },
       platform: 'node',
       concurrency: 10,
+    },
+    dynamodb: {
+      stages: ['dev'],
+      start: {
+        port: '8000',
+        inMemory: true,
+        migrate: true,
+      },
     },
     documentation: {
       version: '1.0.0',
@@ -74,6 +84,9 @@ const serverlessConfiguration: AWS = {
         },
       ],
     },
+  },
+  resources: {
+    ...dbConfig,
   },
 };
 
