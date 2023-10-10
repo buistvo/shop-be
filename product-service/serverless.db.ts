@@ -25,7 +25,7 @@ const dbConfig = {
     StockTable: {
       Type: 'AWS::DynamoDB::Table',
       Properties: {
-        TableName: 'stock',
+        TableName: 'stocks',
         AttributeDefinitions: [
           {
             AttributeName: 'product_id',

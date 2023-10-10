@@ -19,7 +19,7 @@ const addTestData = async () => {
       TableName: 'stocks',
       Item: {
         product_id: product.id,
-        count: index,
+        count: index < 5 ? 0 : index,
       },
     };
     productPromises.push(dynamoDB.put(productData).promise());

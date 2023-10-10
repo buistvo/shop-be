@@ -5,7 +5,7 @@ export class StockDataService {
   _dynamodb = new DynamoDB.DocumentClient();
 
   baseParams = {
-    TableName: 'stock',
+    TableName: 'stocks',
   };
   async getProductsInStock(): Promise<Stock[]> {
     const params = {
