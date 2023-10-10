@@ -22,3 +22,13 @@ export const formatJSONResponse = (response: unknown | Array<unknown>) => {
     body: JSON.stringify(response),
   };
 };
+
+export const errorResponse = (message: string) => {
+  return {
+    statusCode: 500,
+    headers: {
+      'Access-Control-Allow-Origin': 'https://d17npkfpw4myuc.cloudfront.net',
+    },
+    body: message,
+  };
+};
