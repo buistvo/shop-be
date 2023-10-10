@@ -13,7 +13,7 @@ const getAvailableProductsList = //: ValidatedEventAPIGatewayProxyEvent<typeof s
       );
     } catch (e) {
       console.error('Error executing getAvailableProductsList:', e);
-      errorResponse(e);
+      return errorResponse(e);
     }
   };
 

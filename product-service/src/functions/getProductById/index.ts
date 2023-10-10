@@ -43,7 +43,16 @@ export default {
               },
             },
             {
-              statusCode: 400,
+              statusCode: 404,
+              responseBody: {
+                description: 'Error response',
+              },
+              responseModels: {
+                'application/json': 'ErrorResponse',
+              },
+            },
+            {
+              statusCode: 500,
               responseBody: {
                 description: 'Error response',
               },

@@ -7,7 +7,7 @@ const getProductsList = async (event) => {
     return formatJSONResponse(await new ProductDataService().getProductList());
   } catch (e) {
     console.error('Error executing getProductsList:', e);
-    errorResponse(e);
+    return errorResponse(e);
   }
 };
 

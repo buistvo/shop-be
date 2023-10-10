@@ -42,6 +42,15 @@ export default {
                 'application/json': 'ErrorResponse',
               },
             },
+            {
+              statusCode: 500,
+              responseBody: {
+                description: 'Error response',
+              },
+              responseModels: {
+                'application/json': 'ErrorResponse',
+              },
+            },
           ],
         },
       },

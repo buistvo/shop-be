@@ -23,12 +23,12 @@ export const formatJSONResponse = (response: unknown | Array<unknown>) => {
   };
 };
 
-export const errorResponse = (message: string) => {
+export const errorResponse = (message: string, errorCode = 500) => {
   return {
-    statusCode: 500,
+    statusCode: errorCode,
     headers: {
       'Access-Control-Allow-Origin': 'https://d17npkfpw4myuc.cloudfront.net',
     },
-    body: message,
+    body: JSON.stringify({ message }),
   };
 };
