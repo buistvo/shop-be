@@ -9,12 +9,11 @@
     "sourceMap": true,
     "target": "ES2020",
     "outDir": "lib",
-    "types": ["node"],
+    "types": ["node", "jest"],
     "typeRoots": ["./node_modules/@types"]
   },
   "include": ["src/**/*.ts", "serverless.ts"],
   "exclude": [
-    "src/**/*.test.ts",
     "node_modules/**/*",
     ".serverless/**/*",
     ".webpack/**/*",
