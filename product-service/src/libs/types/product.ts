@@ -6,4 +6,6 @@ export type Product = {
 };
 export default Product;
 
-export type ProductCreate = Omit<Product, 'id'>;
+export type ProductCreate = Omit<Product, 'id'> & {
+  count: number;
+};

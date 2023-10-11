@@ -12,6 +12,7 @@ const productCreateValidationSchema = yup.object().shape({
   title: yup.string().required(),
   price: yup.number().moreThan(0).required(),
   description: yup.string().nullable(),
+  count: yup.number().integer().required(),
 });
 
 const createProduct: ValidatedEventAPIGatewayProxyEvent<ProductCreate> = async (
