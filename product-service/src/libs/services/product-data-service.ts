@@ -1,7 +1,10 @@
-import Product from '@libs/types/product';
+import Product, { ProductCreate } from '@libs/types/product';
 import { DynamoDB } from './dynamodb-local';
 import { StockDataService } from './stock-data-service';
 import AvailableProduct from '@libs/types/availableProduct';
+import { v4 as uuidv4 } from 'uuid';
+import Stock from '@libs/types/stock';
+import * as AWS from 'aws-sdk';
 
 export class ProductDataService {
   _dynamodb = new DynamoDB.DocumentClient();
@@ -41,5 +44,36 @@ export class ProductDataService {
       ...p,
       count: stocks.find((s) => s.product_id === p.id).count,
     }));
+  }
+
+  async createProduct(productCreate: ProductCreate) {
+    const product: Product = {
+      id: uuidv4(),
+      ...productCreate,
+    };
+    const stock: Stock = { product_id: product.id, count: 1 };
+
+    const params: AWS.DynamoDB.DocumentClient.TransactWriteItemsInput = {
+      TransactItems: [
+        {
+          Put: {
+            TableName: 'products',
+            Item: {
+              ...product,
+            },
+          },
+        },
+        {
+          Put: {
+            TableName: 'stocks',
+            Item: {
+              ...stock,
+            },
+          },
+        },
+      ],
+    };
+    await this._dynamodb.transactWrite(params).promise();
+    return product;
   }
 }

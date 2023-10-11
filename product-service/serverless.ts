@@ -1,5 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 import {
+  createProduct,
   getAvailableProductsList,
   getProductById,
   getProductsList,
@@ -40,6 +41,7 @@ const serverlessConfiguration: AWS = {
               'dynamodb:PutItem',
               'dynamodb:UpdateItem',
               'dynamodb:DeleteItem',
+              'dynamodb:TransactWriteItems',
             ],
             Resource: 'arn:aws:dynamodb:eu-north-1:979116953403:table/stocks',
           },
@@ -53,6 +55,7 @@ const serverlessConfiguration: AWS = {
               'dynamodb:PutItem',
               'dynamodb:UpdateItem',
               'dynamodb:DeleteItem',
+              'dynamodb:TransactWriteItems',
             ],
             Resource: 'arn:aws:dynamodb:eu-north-1:979116953403:table/products',
           },
@@ -61,7 +64,12 @@ const serverlessConfiguration: AWS = {
     },
   },
   // import the function via paths
-  functions: { getProductsList, getAvailableProductsList, getProductById },
+  functions: {
+    getProductsList,
+    getAvailableProductsList,
+    getProductById,
+    createProduct,
+  },
   package: { individually: true },
   custom: {
     esbuild: {
