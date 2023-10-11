@@ -9,7 +9,7 @@ export default {
         method: 'get',
         path: 'product/available',
         cors: {
-          origin: 'https://d17npkfpw4myuc.cloudfront.net',
+          origin: '*',
           headers: [
             'Content-Type',
             'X-Amz-Date',
