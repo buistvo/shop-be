@@ -57,6 +57,25 @@
       ],
       "type": "object"
     },
+    "ProductCreate": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "price"
+      ],
+      "type": "object"
+    },
     "ProductListResponse": {
       "items": {
         "$ref": "#/definitions/Product"
@@ -80,6 +99,9 @@
     },
     "__do_not_use_Product": {
       "$ref": "#/definitions/Product"
+    },
+    "__do_not_use_ProductCreate": {
+      "$ref": "#/definitions/ProductCreate"
     },
     "__do_not_use_ServerError": {
       "$ref": "#/definitions/ServerError"

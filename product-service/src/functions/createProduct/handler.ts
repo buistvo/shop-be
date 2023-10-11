@@ -5,7 +5,7 @@ import {
 } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
 import { ProductDataService } from '@libs/services/product-data-service';
-import Product, { ProductCreate } from '@libs/types/product';
+import { ProductCreate } from '@libs/types/product';
 
 const createProduct: ValidatedEventAPIGatewayProxyEvent<ProductCreate> = async (
   event

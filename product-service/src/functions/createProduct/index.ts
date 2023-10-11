@@ -23,6 +23,12 @@ export default {
         documentation: {
           summary: 'Create product',
           description: 'Create product',
+          requestBody: {
+            description: 'Create Product body',
+            requestModels: {
+              'application/json': 'CreateProductRequest',
+            },
+          },
           methodResponses: [
             {
               statusCode: 200,

@@ -121,6 +121,12 @@ const serverlessConfiguration: AWS = {
           contentType: 'application/json',
           schema: '${file(schemas/schemas.json):definitions.ServerError}',
         },
+        {
+          name: 'ProductCreateRequest',
+          description: 'Request for createProduct',
+          contentType: 'application/json',
+          schema: '${file(schemas/schemas.json):definitions.ProductCreate}',
+        },
       ],
     },
   },
