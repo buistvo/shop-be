@@ -5,8 +5,8 @@
   "main": "serverless.ts",
   "scripts": {
     "test": "jest",
-    "generate-schemas": "ts-json-schema-generator --path src/libs/types/schemas.ts > schemas/schemas.json",
-    "generate-documentation": "serverless openapi generate -o openapi.yaml -f yaml  -a 3.0.3 -p postman.json",
+    "generate-schemas": "ts-json-schema-generator --path src/libs/types/api-types.d.ts > schemas/schemas.json",
+    "generate-documentation": "serverless openapi generate -o openapi.json -a 3.0.2 -p postman.json",
     "predeploy": "npm run generate-schemas",
     "deploy": "sls deploy",
     "migrate-products": "tsc --target ES2020 --moduleResolution node --module CommonJS ./migrations/migrate-products.ts && node ./migrations/migrate-products"
@@ -17,6 +17,7 @@
   "dependencies": {
     "@middy/core": "^3.4.0",
     "@middy/http-json-body-parser": "^3.4.0",
+    "swagger-ui-dist": "^5.9.0",
     "uuid": "^9.0.1",
     "yup": "^1.3.2"
   },

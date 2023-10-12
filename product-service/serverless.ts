@@ -4,6 +4,7 @@ import {
   getAvailableProductsList,
   getProductById,
   getProductsList,
+  swagger,
 } from '@functions/index';
 import { default as dbConfig } from './serverless.db';
 
@@ -69,6 +70,7 @@ const serverlessConfiguration: AWS = {
     getAvailableProductsList,
     getProductById,
     createProduct,
+    swagger,
   },
   package: { individually: true },
   custom: {
