@@ -4,6 +4,7 @@ import { ProductDataService } from '@libs/services/product-data-service';
 
 const getProductsList = async (event) => {
   try {
+    console.log('executing getProductsList');
     return formatJSONResponse(await new ProductDataService().getProductList());
   } catch (e) {
     console.error('Error executing getProductsList:', e);

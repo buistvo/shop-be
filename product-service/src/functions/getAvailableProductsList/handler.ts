@@ -5,6 +5,7 @@ import { ProductDataService } from '@libs/services/product-data-service';
 
 const getAvailableProductsList = async (event) => {
   try {
+    console.log('executing getAvailableProductsList');
     return formatJSONResponse(
       await new ProductDataService().getAvailableProductsList()
     );

@@ -19,7 +19,13 @@ const createProduct: ValidatedEventAPIGatewayProxyEvent<ProductCreate> = async (
   event
 ) => {
   try {
-    await productCreateValidationSchema.validate(event.body);
+    console.log('executing createProduct', event.body);
+    try {
+      await productCreateValidationSchema.validate(event.body);
+    } catch (validationError) {
+      console.error('Validation error:', validationError.errors);
+      return errorResponse(validationError.errors, 400);
+    }
     return formatJSONResponse(
       await new ProductDataService().createProduct(event.body)
     );
