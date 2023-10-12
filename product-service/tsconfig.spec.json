@@ -9,18 +9,11 @@
     "sourceMap": true,
     "target": "ES2020",
     "outDir": "lib",
-    "types": ["node"],
-    "typeRoots": ["./node_modules/@types"]
+    "types": ["node", "jest"],
+    "typeRoots": ["./node_modules/@types"],
+    "esModuleInterop": true
   },
-  "include": ["src/**/*.ts", "serverless.ts"],
-  "exclude": [
-    "src/**/*.test.ts",
-    "node_modules/**/*",
-    ".serverless/**/*",
-    ".webpack/**/*",
-    "_warmup/**/*",
-    ".vscode/**/*"
-  ],
+  "include": ["src/**/*.test.ts"],
   "ts-node": {
     "require": ["tsconfig-paths/register"]
   }

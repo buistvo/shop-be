@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "AvailableProduct": {
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "type": "number"
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "count",
+        "id",
+        "price",
+        "title"
+      ],
+      "type": "object"
+    },
+    "AvailableProductListResponse": {
+      "items": {
+        "$ref": "#/definitions/AvailableProduct"
+      },
+      "type": "array"
+    },
+    "Product": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "price"
+      ],
+      "type": "object"
+    },
+    "ProductListResponse": {
+      "items": {
+        "$ref": "#/definitions/Product"
+      },
+      "type": "array"
+    },
+    "ServerError": {
+      "additionalProperties": false,
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "message"
+      ],
+      "type": "object"
+    },
+    "__do_not_use_AvailableProduct": {
+      "$ref": "#/definitions/AvailableProduct"
+    },
+    "__do_not_use_Product": {
+      "$ref": "#/definitions/Product"
+    },
+    "__do_not_use_ServerError": {
+      "$ref": "#/definitions/ServerError"
+    }
+  }
+}
