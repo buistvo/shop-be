@@ -49,9 +49,11 @@ export class ProductDataService {
   async createProduct(productCreate: ProductCreate) {
     const product: Product = {
       id: uuidv4(),
-      ...productCreate,
+      title: productCreate.title,
+      description: productCreate.description,
+      price: productCreate.price,
     };
-    const stock: Stock = { product_id: product.id, count: 1 };
+    const stock: Stock = { product_id: product.id, count: productCreate.count };
 
     const params: AWS.DynamoDB.DocumentClient.TransactWriteItemsInput = {
       TransactItems: [
