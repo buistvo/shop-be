@@ -111,6 +111,12 @@ const serverlessConfiguration: AWS = {
             '${file(schemas/schemas.json):definitions.ProductListResponse}',
         },
         {
+          name: 'AvailableProduct',
+          description: 'AvailableProduct',
+          contentType: 'application/json',
+          schema: '${file(schemas/schemas.json):definitions.AvailableProduct}',
+        },
+        {
           name: 'AvailableProductList',
           description: 'Available Product',
           contentType: 'application/json',
