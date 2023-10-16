@@ -22,7 +22,7 @@ const serverlessConfiguration: AWS = {
       {
         Effect: 'Allow',
         Action: ['s3:PutObject'],
-        Resource: 'arn:aws:s3:::shop-aws-import-bucket/uploaded/*"',
+        Resource: 'arn:aws:s3:::shop-aws-import-bucket/uploaded/*',
       },
     ],
   },
