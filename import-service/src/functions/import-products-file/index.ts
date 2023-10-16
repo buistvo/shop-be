@@ -7,11 +7,11 @@ export default {
       http: {
         method: 'GET',
         cors: true,
-        path: 'import/{fileName}',
+        path: 'import',
         request: {
           parameters: {
             querystrings: {
-              filename: true,
+              name: true,
             },
           },
         },
