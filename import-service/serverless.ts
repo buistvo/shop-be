@@ -22,7 +22,7 @@ const serverlessConfiguration: AWS = {
       {
         Effect: 'Allow',
         Action: ['s3:PutObject'],
-        Resource: 'arn:aws:s3:::import-bucket/uploaded/*"',
+        Resource: 'arn:aws:s3:::shop-aws-import-bucket/uploaded/*"',
       },
     ],
   },
@@ -46,13 +46,13 @@ const serverlessConfiguration: AWS = {
       ImportBucket: {
         Type: 'AWS::S3::Bucket',
         Properties: {
-          BucketName: 'import-bucket',
+          BucketName: 'shop-aws-import-bucket',
           CorsConfiguration: {
             CorsRules: [
               {
-                AllowedHeaders: '*',
+                AllowedHeaders: ['*'],
                 AllowedMethods: ['GET', 'PUT', 'POST'],
-                AllowedOrigins: '*',
+                AllowedOrigins: ['*'],
               },
             ],
           },
