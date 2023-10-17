@@ -1,6 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 
-import importProductsFile from '@functions/import-products-file';
+import { importFileParser, importProductsFile } from '@functions/index';
 
 const serverlessConfiguration: AWS = {
   service: 'import-service',
@@ -21,13 +21,13 @@ const serverlessConfiguration: AWS = {
     iamRoleStatements: [
       {
         Effect: 'Allow',
-        Action: ['s3:PutObject'],
-        Resource: 'arn:aws:s3:::shop-aws-import-bucket/uploaded/*',
+        Action: ['s3:PutObject', 's3:CopyObject', 's3:DeleteObject'],
+        Resource: 'arn:aws:s3:::shop-aws-import-bucket/*',
       },
     ],
   },
   // import the function via paths
-  functions: { importProductsFile },
+  functions: { importProductsFile, importFileParser },
   package: { individually: true },
   custom: {
     esbuild: {
