@@ -21,7 +21,12 @@ const serverlessConfiguration: AWS = {
     iamRoleStatements: [
       {
         Effect: 'Allow',
-        Action: ['s3:PutObject', 's3:CopyObject', 's3:DeleteObject'],
+        Action: [
+          's3:GetObject',
+          's3:PutObject',
+          's3:CopyObject',
+          's3:DeleteObject',
+        ],
         Resource: 'arn:aws:s3:::shop-aws-import-bucket/*',
       },
     ],

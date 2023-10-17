@@ -8,7 +8,7 @@ const importFileParser = async (event: S3Event) => {
   for (const record of event.Records) {
     const bucketName = record.s3.bucket.name;
     const srcKey = decodeURIComponent(record.s3.object.key.replace(/\+/g, ' ')); // S3 keyname decoding
-
+    console.log('start');
     const s3Stream = s3
       .getObject({
         Bucket: bucketName,
@@ -21,6 +21,7 @@ const importFileParser = async (event: S3Event) => {
       console.log(data);
     });
     await streamFinished(parser);
+    console.log('streamFinished');
 
     const targetKey = srcKey.replace('uploaded/', 'parsed/');
 
@@ -32,6 +33,7 @@ const importFileParser = async (event: S3Event) => {
         Key: targetKey,
       })
       .promise();
+    console.log('copy succeed');
 
     // Delete the file from the 'uploaded' folder
     await s3
@@ -40,6 +42,7 @@ const importFileParser = async (event: S3Event) => {
         Key: srcKey,
       })
       .promise();
+    console.log('delete succeed');
   }
 };
 
@@ -51,4 +54,4 @@ const streamFinished = (stream) => {
   });
 };
 
-export const main = middyfy(importFileParser);
+export const main = importFileParser;
