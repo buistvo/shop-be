@@ -1,4 +1,3 @@
-import { middyfy } from '@libs/lambda';
 import * as AWS from 'aws-sdk';
 import { S3Event } from 'aws-lambda';
 import csvParser from 'csv-parser';

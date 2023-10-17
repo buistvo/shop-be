@@ -3,7 +3,7 @@ import { middyfy } from '@libs/lambda';
 import * as AWS from 'aws-sdk';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 
-const importProductsFile = async (event: APIGatewayProxyEvent) => {
+export const importProductsFile = async (event: APIGatewayProxyEvent) => {
   const fileName = event.queryStringParameters.name;
   if (!fileName) {
     return formatJSONResponse(
