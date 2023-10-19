@@ -9,7 +9,7 @@ export default {
         method: 'get',
         path: 'product/available',
         cors: {
-          origin: 'https://d17npkfpw4myuc.cloudfront.net',
+          origin: '*',
           headers: [
             'Content-Type',
             'X-Amz-Date',
@@ -35,6 +35,15 @@ export default {
             },
             {
               statusCode: 400,
+              responseBody: {
+                description: 'Error response',
+              },
+              responseModels: {
+                'application/json': 'ErrorResponse',
+              },
+            },
+            {
+              statusCode: 500,
               responseBody: {
                 description: 'Error response',
               },

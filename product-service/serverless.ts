@@ -1,15 +1,19 @@
 import type { AWS } from '@serverless/typescript';
 import {
+  createProduct,
   getAvailableProductsList,
   getProductById,
   getProductsList,
+  swagger,
 } from '@functions/index';
+import { default as dbConfig } from './serverless.db';
 
 const serverlessConfiguration: AWS = {
   service: 'product-service',
   frameworkVersion: '3',
   plugins: [
     'serverless-esbuild',
+    'serverless-dynamodb-local',
     'serverless-offline',
     'serverless-openapi-documenter',
   ],
@@ -26,9 +30,48 @@ const serverlessConfiguration: AWS = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
     },
+    iam: {
+      role: {
+        statements: [
+          {
+            Effect: 'Allow',
+            Action: [
+              'dynamodb:Query',
+              'dynamodb:Scan',
+              'dynamodb:GetItem',
+              'dynamodb:PutItem',
+              'dynamodb:UpdateItem',
+              'dynamodb:DeleteItem',
+              'dynamodb:TransactWriteItems',
+            ],
+            Resource: 'arn:aws:dynamodb:eu-north-1:979116953403:table/stocks',
+          },
+          {
+            Effect: 'Allow',
+            Action: [
+              'dynamodb:Query',
+              'dynamodb:BatchGetItem',
+              'dynamodb:Scan',
+              'dynamodb:GetItem',
+              'dynamodb:PutItem',
+              'dynamodb:UpdateItem',
+              'dynamodb:DeleteItem',
+              'dynamodb:TransactWriteItems',
+            ],
+            Resource: 'arn:aws:dynamodb:eu-north-1:979116953403:table/products',
+          },
+        ],
+      },
+    },
   },
   // import the function via paths
-  functions: { getProductsList, getAvailableProductsList, getProductById },
+  functions: {
+    getProductsList,
+    getAvailableProductsList,
+    getProductById,
+    createProduct,
+    swagger,
+  },
   package: { individually: true },
   custom: {
     esbuild: {
@@ -40,6 +83,14 @@ const serverlessConfiguration: AWS = {
       define: { 'require.resolve': undefined },
       platform: 'node',
       concurrency: 10,
+    },
+    dynamodb: {
+      stages: ['dev'],
+      start: {
+        port: '8000',
+        inMemory: true,
+        migrate: true,
+      },
     },
     documentation: {
       version: '1.0.0',
@@ -60,6 +111,12 @@ const serverlessConfiguration: AWS = {
             '${file(schemas/schemas.json):definitions.ProductListResponse}',
         },
         {
+          name: 'AvailableProduct',
+          description: 'AvailableProduct',
+          contentType: 'application/json',
+          schema: '${file(schemas/schemas.json):definitions.AvailableProduct}',
+        },
+        {
           name: 'AvailableProductList',
           description: 'Available Product',
           contentType: 'application/json',
@@ -72,8 +129,17 @@ const serverlessConfiguration: AWS = {
           contentType: 'application/json',
           schema: '${file(schemas/schemas.json):definitions.ServerError}',
         },
+        {
+          name: 'ProductCreateRequest',
+          description: 'Request for createProduct',
+          contentType: 'application/json',
+          schema: '${file(schemas/schemas.json):definitions.ProductCreate}',
+        },
       ],
     },
+  },
+  resources: {
+    ...dbConfig,
   },
 };
 

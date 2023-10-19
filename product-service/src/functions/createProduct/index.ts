@@ -6,7 +6,7 @@ export default {
   events: [
     {
       http: {
-        method: 'get',
+        method: 'post',
         path: 'product',
         cors: {
           origin: '*',
@@ -21,16 +21,22 @@ export default {
           ],
         },
         documentation: {
-          summary: 'Get all products',
-          description: 'Retrieves all products',
+          summary: 'Create product',
+          description: 'Create product',
+          requestBody: {
+            description: 'Create Product body',
+            requestModels: {
+              'application/json': 'CreateProductRequest',
+            },
+          },
           methodResponses: [
             {
               statusCode: 200,
               responseBody: {
-                description: 'Product List',
+                description: 'Product',
               },
               responseModels: {
-                'application/json': 'ProductList',
+                'application/json': 'Product',
               },
             },
             {
