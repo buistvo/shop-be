@@ -1,5 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 import {
+  catalogBatchProcess,
   createProduct,
   getAvailableProductsList,
   getProductById,
@@ -60,6 +61,19 @@ const serverlessConfiguration: AWS = {
             ],
             Resource: 'arn:aws:dynamodb:eu-north-1:979116953403:table/products',
           },
+          {
+            Effect: 'Allow',
+            Action: [
+              'sqs:ReceiveMessage',
+              'sqs:DeleteMessage',
+              'sqs:GetQueueAttributes',
+            ],
+            Resource: [
+              {
+                'Fn::GetAtt': ['SQSProductQueue', 'Arn'],
+              },
+            ],
+          },
         ],
       },
     },
@@ -70,6 +84,7 @@ const serverlessConfiguration: AWS = {
     getAvailableProductsList,
     getProductById,
     createProduct,
+    catalogBatchProcess,
     swagger,
   },
   package: { individually: true },
@@ -139,7 +154,15 @@ const serverlessConfiguration: AWS = {
     },
   },
   resources: {
-    ...dbConfig,
+    Resources: {
+      ...dbConfig,
+      SQSProductQueue: {
+        Type: 'AWS::SQS::Queue',
+        Properties: {
+          QueueName: 'catalogItemsQueue',
+        },
+      },
+    },
   },
 };
 

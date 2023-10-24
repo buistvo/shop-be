@@ -5,6 +5,7 @@ import AvailableProduct from '@libs/types/availableProduct';
 import { v4 as uuidv4 } from 'uuid';
 import Stock from '@libs/types/stock';
 import * as AWS from 'aws-sdk';
+import * as yup from 'yup';
 
 export class ProductDataService {
   _dynamodb = new DynamoDB.DocumentClient();
