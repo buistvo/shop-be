@@ -178,7 +178,7 @@ const serverlessConfiguration: AWS = {
           TopicName: 'createProductTopic',
         },
       },
-      EmailSubscription: {
+      EmailSubscriptionBasic: {
         Type: 'AWS::SNS::Subscription',
         Properties: {
           Protocol: 'email',
@@ -186,6 +186,22 @@ const serverlessConfiguration: AWS = {
             Ref: 'CreateProductTopic',
           },
           Endpoint: 'leva.doronkin@gmail.com',
+          FilterPolicy: {
+            priceType: ['Basic'],
+          },
+        },
+      },
+      EmailSubscriptionLuxury: {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          Protocol: 'email',
+          TopicArn: {
+            Ref: 'CreateProductTopic',
+          },
+          Endpoint: 'lev_doronkin@epam.com',
+          FilterPolicy: {
+            priceType: ['Luxury'],
+          },
         },
       },
     },

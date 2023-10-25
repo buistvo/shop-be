@@ -1,5 +1,6 @@
 import { ProductDataService } from '@libs/services/product-data-service';
 import { ProductValidatorService } from '@libs/services/product-validator-service';
+import { PriceType } from '@libs/types/prictType.enum';
 import { ProductCreate } from '@libs/types/product';
 import middy from '@middy/core';
 import { SQSEvent } from 'aws-lambda';
@@ -24,6 +25,13 @@ export const catalogBatchProcess = async (event: SQSEvent) => {
         TopicArn: process.env.SNS_TOPIC_ARN,
         Message: `New product created: ${JSON.stringify(created)}`,
         Subject: 'New Product Created',
+        MessageAttributes: {
+          priceType: {
+            DataType: 'String',
+            StringValue:
+              created.price > 1000 ? PriceType.Luxury : PriceType.Basic,
+          },
+        },
       };
       await sns.publish(snsMessage).promise();
     } catch (error) {
