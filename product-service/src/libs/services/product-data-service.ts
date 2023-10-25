@@ -5,7 +5,6 @@ import AvailableProduct from '@libs/types/availableProduct';
 import { v4 as uuidv4 } from 'uuid';
 import Stock from '@libs/types/stock';
 import * as AWS from 'aws-sdk';
-import * as yup from 'yup';
 
 export class ProductDataService {
   _dynamodb = new DynamoDB.DocumentClient();
@@ -52,9 +51,12 @@ export class ProductDataService {
       id: uuidv4(),
       title: productCreate.title,
       description: productCreate.description,
-      price: productCreate.price,
+      price: Number(productCreate.price),
     };
-    const stock: Stock = { product_id: product.id, count: productCreate.count };
+    const stock: Stock = {
+      product_id: product.id,
+      count: Number(productCreate.count),
+    };
 
     const params: AWS.DynamoDB.DocumentClient.TransactWriteItemsInput = {
       TransactItems: [
