@@ -3,8 +3,11 @@ import { ProductValidatorService } from '@libs/services/product-validator-servic
 import { ProductCreate } from '@libs/types/product';
 import middy from '@middy/core';
 import { SQSEvent } from 'aws-lambda';
+import * as AWS from 'aws-sdk';
 
-const catalogBatchProcess = async (event: SQSEvent) => {
+export const catalogBatchProcess = async (event: SQSEvent) => {
+  const sns = new AWS.SNS();
+
   for (const message of event.Records) {
     try {
       console.log('received new message', message.body);
@@ -17,6 +20,12 @@ const catalogBatchProcess = async (event: SQSEvent) => {
       console.log('creating product...', product);
       const created = await new ProductDataService().createProduct(product);
       console.log('product created', created);
+      const snsMessage = {
+        TopicArn: process.env.SNS_TOPIC_ARN,
+        Message: `New product created: ${JSON.stringify(created)}`,
+        Subject: 'New Product Created',
+      };
+      await sns.publish(snsMessage).promise();
     } catch (error) {
       console.error('Unhandled error', error);
     }

@@ -74,6 +74,15 @@ const serverlessConfiguration: AWS = {
               },
             ],
           },
+          {
+            Effect: 'Allow',
+            Action: ['sns:Publish'],
+            Resource: [
+              {
+                Ref: 'CreateProductTopic',
+              },
+            ],
+          },
         ],
       },
     },
@@ -160,6 +169,23 @@ const serverlessConfiguration: AWS = {
         Type: 'AWS::SQS::Queue',
         Properties: {
           QueueName: 'catalogItemsQueue',
+        },
+      },
+      CreateProductTopic: {
+        Type: 'AWS::SNS::Topic',
+        Properties: {
+          DisplayName: 'Product Creation Topic',
+          TopicName: 'createProductTopic',
+        },
+      },
+      EmailSubscription: {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          Protocol: 'email',
+          TopicArn: {
+            Ref: 'CreateProductTopic',
+          },
+          Endpoint: 'leva.doronkin@gmail.com',
         },
       },
     },

@@ -13,4 +13,9 @@ export default {
       },
     },
   ],
+  environment: {
+    SNS_TOPIC_ARN: {
+      Ref: 'CreateProductTopic',
+    },
+  },
 };
