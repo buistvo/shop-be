@@ -1,11 +1,32 @@
-import { formatJSONResponse } from '@libs/api-gateway';
-import { middyfy } from '@libs/lambda';
-
 const basicAuthorizer = async (event) => {
-  return formatJSONResponse({
-    message: `Hello ${event.body.name}, welcome to the exciting Serverless world!`,
-    event,
-  });
+  const authorizationToken = event.authorizationToken;
+  if (!authorizationToken) {
+    return generatePolicy('user', 'Deny', event.methodArn);
+  }
+  const encodedCreds = authorizationToken.split(' ')[1];
+  const credentials = Buffer.from(encodedCreds, 'base64').toString('utf-8');
+  const [username, password] = credentials.split(':');
+
+  if (process.env[username] === password) {
+    return generatePolicy('user', 'Allow', event.methodArn);
+  }
+  return generatePolicy('user', 'Deny', event.methodArn);
 };
 
-export const main = middyfy(basicAuthorizer);
+const generatePolicy = (principalId, effect, resource) => {
+  return {
+    principalId,
+    policyDocument: {
+      Version: '2012-10-17',
+      Statement: [
+        {
+          Action: 'execute-api:Invoke',
+          Effect: effect,
+          Resource: resource,
+        },
+      ],
+    },
+  };
+};
+
+export const main = basicAuthorizer;
