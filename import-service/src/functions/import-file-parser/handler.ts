@@ -3,7 +3,10 @@ import { S3Event } from 'aws-lambda';
 import csvParser from 'csv-parser';
 
 const importFileParser = async (event: S3Event) => {
+  const queueUrl =
+    'https://sqs.eu-north-1.amazonaws.com/979116953403/catalogItemsQueue';
   const s3 = new AWS.S3({ region: 'eu-north-1' });
+  const sqs = new AWS.SQS({ region: 'eu-north-1' });
   for (const record of event.Records) {
     const bucketName = record.s3.bucket.name;
     const srcKey = decodeURIComponent(record.s3.object.key.replace(/\+/g, ' ')); // S3 keyname decoding
@@ -16,8 +19,13 @@ const importFileParser = async (event: S3Event) => {
       .createReadStream();
     const parser = csvParser();
     s3Stream.pipe(parser);
-    parser.on('data', (data) => {
-      console.log(data);
+    parser.on('data', async (data) => {
+      await sqs
+        .sendMessage({
+          MessageBody: JSON.stringify(data),
+          QueueUrl: queueUrl,
+        })
+        .promise();
     });
     await streamFinished(parser);
     console.log('streamFinished');

@@ -3,3 +3,4 @@ export { default as getAvailableProductsList } from './getAvailableProductsList'
 export { default as getProductById } from './getProductById';
 export { default as createProduct } from './createProduct';
 export { default as swagger } from './swagger';
+export { default as catalogBatchProcess } from './catalogBatchProcess';

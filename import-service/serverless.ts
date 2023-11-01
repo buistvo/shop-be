@@ -29,6 +29,11 @@ const serverlessConfiguration: AWS = {
         ],
         Resource: 'arn:aws:s3:::shop-aws-import-bucket/*',
       },
+      {
+        Effect: 'Allow',
+        Action: ['sqs:SendMessage'],
+        Resource: 'arn:aws:sqs:eu-north-1:979116953403:catalogItemsQueue',
+      },
     ],
   },
   // import the function via paths

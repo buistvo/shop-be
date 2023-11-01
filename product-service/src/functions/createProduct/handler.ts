@@ -5,23 +5,15 @@ import {
 } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
 import { ProductDataService } from '@libs/services/product-data-service';
+import { ProductValidatorService } from '@libs/services/product-validator-service';
 import { ProductCreate } from '@libs/types/product';
-import * as yup from 'yup';
-
-const productCreateValidationSchema = yup.object().shape({
-  title: yup.string().required(),
-  price: yup.number().moreThan(0).required(),
-  description: yup.string().nullable(),
-  count: yup.number().integer().required(),
-});
-
 const createProduct: ValidatedEventAPIGatewayProxyEvent<ProductCreate> = async (
   event
 ) => {
   try {
     console.log('executing createProduct', event.body);
     try {
-      await productCreateValidationSchema.validate(event.body);
+      await new ProductValidatorService().validate(event.body);
     } catch (validationError) {
       console.error('Validation error:', validationError.errors);
       return errorResponse(validationError.errors, 400);

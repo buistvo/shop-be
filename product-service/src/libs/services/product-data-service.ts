@@ -51,9 +51,12 @@ export class ProductDataService {
       id: uuidv4(),
       title: productCreate.title,
       description: productCreate.description,
-      price: productCreate.price,
+      price: Number(productCreate.price),
     };
-    const stock: Stock = { product_id: product.id, count: productCreate.count };
+    const stock: Stock = {
+      product_id: product.id,
+      count: Number(productCreate.count),
+    };
 
     const params: AWS.DynamoDB.DocumentClient.TransactWriteItemsInput = {
       TransactItems: [

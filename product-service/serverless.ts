@@ -1,5 +1,6 @@
 import type { AWS } from '@serverless/typescript';
 import {
+  catalogBatchProcess,
   createProduct,
   getAvailableProductsList,
   getProductById,
@@ -60,6 +61,28 @@ const serverlessConfiguration: AWS = {
             ],
             Resource: 'arn:aws:dynamodb:eu-north-1:979116953403:table/products',
           },
+          {
+            Effect: 'Allow',
+            Action: [
+              'sqs:ReceiveMessage',
+              'sqs:DeleteMessage',
+              'sqs:GetQueueAttributes',
+            ],
+            Resource: [
+              {
+                'Fn::GetAtt': ['SQSProductQueue', 'Arn'],
+              },
+            ],
+          },
+          {
+            Effect: 'Allow',
+            Action: ['sns:Publish'],
+            Resource: [
+              {
+                Ref: 'CreateProductTopic',
+              },
+            ],
+          },
         ],
       },
     },
@@ -70,6 +93,7 @@ const serverlessConfiguration: AWS = {
     getAvailableProductsList,
     getProductById,
     createProduct,
+    catalogBatchProcess,
     swagger,
   },
   package: { individually: true },
@@ -139,7 +163,48 @@ const serverlessConfiguration: AWS = {
     },
   },
   resources: {
-    ...dbConfig,
+    Resources: {
+      ...dbConfig,
+      SQSProductQueue: {
+        Type: 'AWS::SQS::Queue',
+        Properties: {
+          QueueName: 'catalogItemsQueue',
+        },
+      },
+      CreateProductTopic: {
+        Type: 'AWS::SNS::Topic',
+        Properties: {
+          DisplayName: 'Product Creation Topic',
+          TopicName: 'createProductTopic',
+        },
+      },
+      EmailSubscriptionBasic: {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          Protocol: 'email',
+          TopicArn: {
+            Ref: 'CreateProductTopic',
+          },
+          Endpoint: 'leva.doronkin@gmail.com',
+          FilterPolicy: {
+            priceType: ['Basic'],
+          },
+        },
+      },
+      EmailSubscriptionLuxury: {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          Protocol: 'email',
+          TopicArn: {
+            Ref: 'CreateProductTopic',
+          },
+          Endpoint: 'lev_doronkin@epam.com',
+          FilterPolicy: {
+            priceType: ['Luxury'],
+          },
+        },
+      },
+    },
   },
 };
 
