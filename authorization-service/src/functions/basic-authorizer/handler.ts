@@ -7,7 +7,7 @@ const basicAuthorizer = async (event) => {
   const credentials = Buffer.from(encodedCreds, 'base64').toString('utf-8');
   const [username, password] = credentials.split(':');
 
-  if (process.env[username] === password) {
+  if (process.env[username] && process.env[username] === password) {
     return generatePolicy('user', 'Allow', event.methodArn);
   }
   return generatePolicy('user', 'Deny', event.methodArn);
