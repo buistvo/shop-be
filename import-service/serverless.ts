@@ -35,6 +35,14 @@ const serverlessConfiguration: AWS = {
         Resource: 'arn:aws:sqs:eu-north-1:979116953403:catalogItemsQueue',
       },
     ],
+    httpApi: {
+      cors: {
+        allowCredentials: true,
+        allowedOrigins: ['https://d16pd4ocp5ok6l.cloudfront.net'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        allowedMethods: ['OPTIONS', 'POST', 'GET'],
+      },
+    },
   },
   // import the function via paths
   functions: { importProductsFile, importFileParser },
